@@ -1,84 +1,72 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkerboard : MonoBehaviour
 {
-    public const int BOARD_SIZE = 17;
-    public const int BLACK = 1;
-    public const int WHITE = 2;
-
-    public int[,] board = new int[BOARD_SIZE, BOARD_SIZE]
+    public enum STONE
     {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-    };
+        WHITE,
+        BLACK
+    }
+    public STONE[,] board = new STONE[19, 19];
+    public List<int> omok_dirX;
+    public List<int> omok_dirY;
 
-    public int gameStatus = 0;
-
-    public void Init_Board()
+    public bool isCorrectRange(int x, int y)
     {
-        for(int i = 0; i < BOARD_SIZE; i++)
-        {
-
-        }
+        return (x >= 0 && y >= 0 && x < 19 && y < 19) ? true : false;
     }
 
-    public void CheckFiveInRange()
+    public bool fourWaySearch(int x, int y, bool flag)
     {
+        STONE currentStone = flag ? STONE.WHITE : STONE.BLACK;
 
+        for(int i = 0; i < 4; i++)
+        {
+            int nx = x;
+            int ny = y;
+            bool s = true;
+
+            for(int k = 0; k < 4; k++)
+            {
+                nx += omok_dirX[i];
+                ny += omok_dirY[i];
+
+                Debug.Log(nx + " " + ny);
+
+                if(!isCorrectRange(nx, ny) || currentStone != board[nx, ny])
+                {
+                    s= false;
+                }
+            }
+
+            if(s == true)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public void DrawScreen(GameObject _stone)
+    public bool isOmok(bool flag)
     {
-        RaycastHit hit;
+        STONE currentStone = flag ? STONE.WHITE : STONE.BLACK;
 
-        if (Physics.Raycast(_stone.transform.position, Vector3.up, out hit, 0.5f))
+        for(int i = 0; i < 19; i++)
         {
-            Debug.Log(":: 위에 바둑돌 있음 ::");
+            for(int k = 0; k < 19; k++)
+            {
+                if(fourWaySearch(i, k , flag))
+                {
+                    Debug.Log(currentStone + "이(가) 이겼습니다.");
+                    return true;
+                }
+            }
         }
-        else if (Physics.Raycast(_stone.transform.position, Vector3.down, out hit, 0.5f))
-        {
-            Debug.Log(":: 아래 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, Vector3.right, 0.5f))
-        {
-            Debug.Log(":: 오른쪽에 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, Vector3.left, out hit, 0.5f))
-        {
-            Debug.Log(":: 왼쪽에 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, (Vector3.up + Vector3.right).normalized, out hit, 0.5f))
-        {
-            Debug.Log(":: 오른쪽 위 대각선에 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, (Vector3.left + Vector3.up).normalized, out hit, 0.5f))
-        {
-            Debug.Log(":: 왼쪽 위 대각선에 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, (Vector3.down + Vector3.right).normalized, out hit, 0.5f))
-        {
-            Debug.Log(":: 오른쪽 아래 대각선에 바둑돌 있음 ::");
-        }
-        else if (Physics.Raycast(_stone.transform.position, (Vector3.down + Vector3.left).normalized, out hit, 0.5f))
-        {
-            Debug.Log(":: 왼쪽 아래 대각선에 바둑돌 있음 ::");
-        }
+
+        return false;
     }
 }
