@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public const int CLEAR_NUM = 5;
-
     public GameObject cuser;
     public GameObject stonePrefab;
 

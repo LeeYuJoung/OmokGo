@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class OmokAI : MonoBehaviour
 {
-    public const int BOARD_SIZE = 19;
-    public const int WHITE = 1;
-    public const int BLACK = 2;
-
     //    알고리즘
     // 1. 내 돌이 4개인 지점 찾는다.
     // 2. 상대방 돌이 4개인 지점 찾는다.
@@ -26,19 +22,12 @@ public class OmokAI : MonoBehaviour
     // 4-3) 또 위의 항목에서 우위가 가려지지 않을 경우 방어에 유리한 곳 찾음
     // 4-4) 그래도 없다면 랜덤으로 돌리기
 
-
-    void Start()
+    public int AlphaBetaPruning(int depth, int alpha, int beta)
     {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
-    public int AI_Init(int[] bestPosition)
-    {
+        if (depth == 4)
+        {
+            return 0;
+        }
 
         return 0;
     }
