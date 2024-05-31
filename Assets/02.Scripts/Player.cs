@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private Checkerboard checkerboard;
     public GameObject cuser;
     public GameObject stonePrefab;
 
-    public int currentClear = 0;
-
+    public const int WHITE = 1;
+    public const int BLACK = 2;
+    public int playerStone = WHITE;
+    
     void Start()
     {
-
+        checkerboard = GameObject.Find("Checkerboard").GetComponent<Checkerboard>();
     }
 
     void Update()
@@ -63,6 +66,7 @@ public class Player : MonoBehaviour
             {
                 GameObject _stone = Instantiate(stonePrefab, transform.position, Quaternion.identity);
                 _stone.transform.parent = GameObject.Find("Checkerboard").transform;
+                checkerboard.ChangeBoard(0, 0, playerStone);
             }
         }
     }
