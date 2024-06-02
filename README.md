@@ -1,4 +1,9 @@
 # ⚫ OmokGo
+<div>
+ <img width="400" src="https://github.com/LeeYuJoung/OmokGo/blob/main/Intro_Image.png">
+ <img width="400" src="https://github.com/LeeYuJoung/OmokGo/blob/main/InGame_Image.png">
+</div>
+
 ## 🛠 Stacks
 ![](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![](https://img.shields.io/badge/Unity-100000?style=for-the-badge&logo=unity&logoColor=white) 
