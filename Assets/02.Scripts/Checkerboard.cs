@@ -10,9 +10,6 @@ public class Checkerboard : MonoBehaviour
     public const int BLACK = 2;
 
     public int[,] board = new int[BOARD_SIZE, BOARD_SIZE];
-    //public List<int> omok_dirX;
-    //public List<int> omok_dirY;
-
     public int countStone;
 
     private void Start()
@@ -26,25 +23,27 @@ public class Checkerboard : MonoBehaviour
         }
     }
 
+    // 바둑판 범위 확인
     public bool CheckRange(int x, int y)
     {
-        return (x >= 0 && y >= 0 && x < 19 && y < 19) ? true : false;
+        return (x >= 0 && y >= 0 && x < BOARD_SIZE && y < BOARD_SIZE);
     }
 
+    // 바둑돌 착수 
     public bool ChangeBoard(int x, int y, int value)
     {
         if(CheckRange(x, y))
         {
             board[x, y] = value;
+            return true;
         }
         else
         {
             return false;
         }
-
-        return true;
     }
 
+    // 오목 완성 확인
     public bool CheckWin(int _stone)
     {
         for(int i = 0; i < BOARD_SIZE; i++)
@@ -58,13 +57,13 @@ public class Checkerboard : MonoBehaviour
                     countStone = 1;
 
                     // 오른쪽 방향 확인
-                    if(CheckRange(i+1,j) && board[i + 1, j] == buff)
+                    if(CheckRange(i + 1,j) && board[i + 1, j] == buff)
                     {
                         countStone++;
 
                         for(int k = 2; k < 5; k++)
                         {
-                            if(CheckRange(i + k, j) && board[i + 1, j] == buff)
+                            if(CheckRange(i + k, j) && board[i + k, j] == buff)
                             {
                                 countStone++;
                             }
@@ -87,7 +86,7 @@ public class Checkerboard : MonoBehaviour
 
                         for(int k = 2; k < 5; k++)
                         {
-                            if(CheckRange(i, j+k) && board[i, j + k] == buff)
+                            if(CheckRange(i, j + k) && board[i, j + k] == buff)
                             {
                                 countStone++;
                             }
@@ -104,13 +103,13 @@ public class Checkerboard : MonoBehaviour
                         countStone = 1;
 
                     // 오른쪽 아래 대각선 방향 확인
-                   if(CheckRange(i+1, j+1) && board[i + 1, j + 1] == buff)
+                   if(CheckRange(i + 1, j + 1) && board[i + 1, j + 1] == buff)
                     {
                         countStone++;
 
                         for(int k = 2; k < 5; k++)
                         {
-                            if(CheckRange(i+k, j+k) && board[i + k, j + k] == buff)
+                            if(CheckRange(i + k, j + k) && board[i + k, j + k] == buff)
                             {
                                 countStone++;
                             }
@@ -127,13 +126,13 @@ public class Checkerboard : MonoBehaviour
                         countStone = 1;
 
                     // 오른쪽 위 대각선 방향 확인
-                    if(CheckRange(i+1, j-1) && board[i + 1, j - 1] == buff)
+                    if(CheckRange(i + 1, j - 1) && board[i + 1, j - 1] == buff)
                     {
                         countStone++;
 
                         for(int k = 2; k < 5; k++)
                         {
-                            if(CheckRange(i+k, j- k) && board[i + k, j - k] == buff)
+                            if(CheckRange(i + k, j- k) && board[i + k, j - k] == buff)
                             {
                                 countStone++;
                             }

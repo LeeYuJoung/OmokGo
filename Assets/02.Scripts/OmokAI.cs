@@ -22,6 +22,13 @@ public class OmokAI : MonoBehaviour
     // 4-3) 또 위의 항목에서 우위가 가려지지 않을 경우 방어에 유리한 곳 찾음
     // 4-4) 그래도 없다면 랜덤으로 돌리기
 
+    public Checkerboard checkerboard;
+
+    void Start()
+    {
+        checkerboard = GameObject.Find("Checkerboard").GetComponent<Checkerboard>();
+    }
+
     public int AlphaBetaPruning(int depth, int alpha, int beta)
     {
         if (depth == 4)
@@ -29,6 +36,64 @@ public class OmokAI : MonoBehaviour
             return 0;
         }
 
-        return 0;
+        if(depth % 2 == 0)
+        {
+            // AI 차례
+            int v = int.MinValue;
+            bool pruning = false;
+
+            for(int x = 0; x < Checkerboard.BOARD_SIZE; x++)
+            {
+                for(int y = 0; y < Checkerboard.BOARD_SIZE; y++)
+                {
+                    int currentStone = checkerboard.board[x, y];
+                    bool flag = false;
+
+                    // 현재 좌표에 돌이 없을 시 &&  주변에 돌이 있을 시 돌을 놓음
+                    if(currentStone == 0)
+                    {
+                        for(int k = 0; k < 8; k++)
+                        {
+
+                        }
+
+                        if (flag)
+                        {
+                            checkerboard.board[x, y] = Checkerboard.WHITE;
+                            int temp = AlphaBetaPruning(depth + 1, alpha, beta);
+
+                            if(v < temp)
+                            {
+                                v = temp;
+
+                                if(depth == 0)
+                                {
+
+                                }
+                            }
+                            checkerboard.board[x, y] = 0;
+                            alpha = Mathf.Max(alpha, v);
+
+                            // 가지치기
+                            if(beta <= alpha)
+                            {
+                                pruning = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (pruning)
+                        break;
+                }
+                if (pruning)
+                    break;
+            }
+            return v;
+        }
+        else
+        {
+            // 플레이어 차례
+            return 0;
+        }
     }
 }

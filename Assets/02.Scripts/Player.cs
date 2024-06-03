@@ -6,8 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private Checkerboard checkerboard;
-    public GameObject cuser;
     public GameObject stonePrefab;
+    public GameObject cuser;
 
     public const int WHITE = 1;
     public const int BLACK = 2;
@@ -62,11 +62,19 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            if(GameManager.Instance().isMyTurn)
+            int _x = Mathf.Abs((int)(transform.position.x / 0.5f));
+            int _y = Mathf.Abs((int)(transform.position.y / 0.5f));
+            Debug.Log("X : " + _x + " , " + "Y : " + _y);
+
+            if (GameManager.Instance().isMyTurn && checkerboard.ChangeBoard(_x, _y, playerStone))
             {
                 GameObject _stone = Instantiate(stonePrefab, transform.position, Quaternion.identity);
-                _stone.transform.parent = GameObject.Find("Checkerboard").transform;
-                checkerboard.ChangeBoard(0, 0, playerStone);
+                _stone.transform.parent = checkerboard.transform;
+
+                if (checkerboard.CheckWin(playerStone))
+                {
+                    Debug.Log("::: 오목 완성 :::");
+                }
             }
         }
     }
