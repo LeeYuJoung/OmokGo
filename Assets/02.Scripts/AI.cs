@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OmokAI : MonoBehaviour
+public class AI : MonoBehaviour
 {
     //    알고리즘
     // 1. 내 돌이 4개인 지점 찾는다.
